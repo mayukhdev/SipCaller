@@ -20,6 +20,7 @@ Web `app` has own detailed README for development.
  
  Now build server.
  
+     cp -r build ../server/public/
      cd ../server
      
      npm install
@@ -28,7 +29,13 @@ Web `app` has own detailed README for development.
      
  Generate certificate in `certs` folder
  
-     openssl req -x509 -newkey rsa:4096 -keyout localhost.key.pem -out localhost.cert.pem -days 365
+     mkdir certs
+     openssl genrsa -out localhost.key.pem 1024
+     openssl req -new -key localhost.key.pem -out server-csr.pem
+     openssl x509 -req -in server-csr.pem -signkey localhost.key.pem -out localhost.cert.pem -days 365
+     cd ..
+     cp config.example.js config.js
+
  
  (or check other options at https://letsencrypt.org/docs/certificates-for-localhost/ 
  or https://stackoverflow.com/questions/9519707/can-nodejs-generate-ssl-certificates )
